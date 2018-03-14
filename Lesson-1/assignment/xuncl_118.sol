@@ -39,15 +39,15 @@ contract AdvancedPayroll {
     }
     
     function makeUpOldSalary(){
-		// 补发之前的工资，把lastPayday的更新放到transfer之前，防止攻击
+	    // 补发之前的工资，把lastPayday的更新放到transfer之前，防止攻击
         if (employee != 0x0) {
             uint payment = salary * (now - lastPayday) / payDuration;
             lastPayday = now;
             employee.transfer(payment);
         } else {
-			// 上次地址为空时，直接重置工资时间
-			lastPayday = now;
-		}
+	        // 上次地址为空时，直接重置工资时间
+	        lastPayday = now;
+	    }
     }
     
     function addFund() payable returns (uint) {
@@ -65,7 +65,7 @@ contract AdvancedPayroll {
     function getPaid() {
         require(msg.sender == employee);
         
-		// 增加判断
+	    // 增加判断
         if (!hasEnoughFund()){
             revert();
         }
