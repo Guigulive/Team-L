@@ -1,5 +1,5 @@
 pragma solidity ^0.4.14;
-// lesson 1 test
+// lesson 1 payroll 1 employee
 contract Payroll {
     
     address employee = 0x0;
