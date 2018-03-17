@@ -13,7 +13,6 @@
 每次加入一个员工后caculateRunway函数的gas消耗如下表:
 
 |    |addEmployee|      |calculateRunway | |
-|    |transactioncost |   execution cost|  transaction cost|    execution cost|
 |----|--------|--------|--------|----|
 |1   |107588  |84716   |22966   |1694|
 |2   |93429   |70557   |23747   |2475|
@@ -25,6 +24,7 @@
 |8   |98475   |75603   |28433   |7161|
 |9   |99316   |76444   |29214   |7942|
 |10  |100157  |77285   |29995   |8723|
+|    |transactioncost |   execution cost|  transaction cost|    execution cost|
 
 (记录这个时代码打了log,故比实际消耗要多一点.)
 
@@ -35,7 +35,6 @@ Gas消耗变多,第一次增加员工时会初始化动态数组,消耗gas较多
 优化之后的gas消耗记录:
 
 |    |addEmployee|      |calculateRunway | |
-|    |transactioncost |   execution cost|  transaction cost|    execution cost|
 |----|--------|--------|--------|----|
 |1   |125452  |102580  |22124   |852|
 |2   |96293   |73421   |22124   |852|
@@ -47,5 +46,6 @@ Gas消耗变多,第一次增加员工时会初始化动态数组,消耗gas较多
 |8   |101339  |78467   |22124   |852|
 |9   |102180  |79308   |22124   |852|
 |10  |103021  |80149   |22124   |852|
+|    |transactioncost |   execution cost|  transaction cost|    execution cost|
 
 
