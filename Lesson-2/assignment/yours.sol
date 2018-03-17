@@ -38,8 +38,9 @@ contract Payroll {
         require(msg.sender == owner);
         var (employee, index) = _findEmployee(employeeId);
         assert(employee.id == 0x0);
-        employees.push(Employee(employeeId, salary * 1 ether, now));
-        totalSalary += salary;
+        uint realSalary = salary * 1 ether;
+        employees.push(Employee(employeeId, realSalary, now));
+        totalSalary += realSalary;
     }
     
     function removeEmployee(address employeeId) {
@@ -61,10 +62,10 @@ contract Payroll {
         assert(employee.id != 0x0);
         _partialPaid(employees[index]);
         // employee.salary = s * 10 ether;
-        totalSalary -= employees[index].salary;
-        totalSalary += salary;
         
+        totalSalary -= employees[index].salary;
         employees[index].salary = salary * 1 ether;
+        totalSalary += employees[index].salary;
     }
     
     function addFund() payable returns (uint) {
@@ -99,3 +100,4 @@ contract Payroll {
         employee.id.transfer(employee.salary);
     }
 }
+
