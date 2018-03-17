@@ -8,3 +8,40 @@
 - 如何优化calculateRunway这个函数来减少gas的消耗？
 提交：智能合约代码，gas变化的记录，calculateRunway函数的优化
 
+-----------------------------------------------------
+
+每次加入一个员工后caculateRunway函数的gas消耗如下表:
+    addEmployee     calculateRunway 
+    transaction cost    execution cost  transaction cost    execution cost
+1   107588  84716   22966   1694
+2   93429   70557   23747   2475
+3   94270   71398   24528   3256
+4   95111   72239   25309   4037
+5   95952   73080   26090   4818
+6   96793   73921   26871   5599
+7   97634   74762   27652   6380
+8   98475   75603   28433   7161
+9   99316   76444   29214   7942
+10  100157  77285   29995   8723
+(记录这个时代码打了log,故比实际消耗要多一点.)
+
+Gas消耗变多,第一次增加员工时会初始化动态数组,消耗gas较多,从第二次开始,transaction cost和execution cost为等差数列.
+原因:execution cost为EVM运算消耗的gas,每次新增员工后calculateRunway中循环次数加一导致计算量增多.transaction cost包含了execution cost,所以相应增加.
+优化:可以维护一个记录total salary的状态变量, 每次add,update,remove时更新,在calculateRunway时不需要循环计算.
+
+优化之后的gas消耗记录:
+
+    addEmployee     calculateRunway 
+    transaction cost    execution cost  transaction cost    execution cost
+1   125452  102580  22124   852
+2   96293   73421   22124   852
+3   97134   74262   22124   852
+4   97975   75103   22124   852
+5   98816   75944   22124   852
+6   99657   76785   22124   852
+7   100498  77626   22124   852
+8   101339  78467   22124   852
+9   102180  79308   22124   852
+10  103021  80149   22124   852
+
+
