@@ -11,6 +11,7 @@
 -----------------------------------------------------
 
 每次加入一个员工后caculateRunway函数的gas消耗如下表:
+
 |    |addEmployee|      |calculateRunway | |
 |    |transactioncost |   execution cost|  transaction cost|    execution cost|
 |----|--------|--------|--------|----|
@@ -32,6 +33,7 @@ Gas消耗变多,第一次增加员工时会初始化动态数组,消耗gas较多
 优化:可以维护一个记录total salary的状态变量, 每次add,update,remove时更新,在calculateRunway时不需要循环计算.
 
 优化之后的gas消耗记录:
+
 |    |addEmployee|      |calculateRunway | |
 |    |transactioncost |   execution cost|  transaction cost|    execution cost|
 |----|--------|--------|--------|----|
