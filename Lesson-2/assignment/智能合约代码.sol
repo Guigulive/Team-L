@@ -1,7 +1,6 @@
 pragma solidity ^0.4.14;
 
 contract Payroll {
-
     struct Employee {
         address id;
         uint salary;
@@ -10,6 +9,8 @@ contract Payroll {
     uint constant payDuration = 10 seconds;
     address owner;
     Employee[] employees;
+
+
 
     function Payroll() {
         owner = msg.sender;
@@ -43,7 +44,7 @@ contract Payroll {
         delete employees[index];
         employees[index] = employees[employees.length - 1];
         employees.length -= 1;
-        return;      
+        // return;      
     }
 
     function updateEmployee(address employeeId, uint salary) {
@@ -51,9 +52,9 @@ contract Payroll {
         var(employee, index) = _findEmployee(employeeId);
         assert(employee.id != 0x0);        
         _partialPaid(employee);         
-        employees[index].salary = salary * 1 ether;
+        employees[index].salary = salary;
         employees[index].lastPayday = now;
-        return;
+        // return;
     }
 
     function addFund() payable returns (uint) {
