@@ -12,3 +12,11 @@
 - contract K1 is A, B
 - contract K2 is A, C
 - contract Z is K1, K2
+
+L(O) = [O]
+L(A) = [A, O]
+L(B) = [B, O]
+L(C) = [C, O]
+L(K1) = [K1, A, B, O]
+L(K2) = [K2, A, C, O]
+L(Z) = [K1, K2, A, B, C, O]
