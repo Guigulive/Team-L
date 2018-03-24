@@ -1,6 +1,7 @@
 ## 硅谷live以太坊智能合约 第四课作业
 这里是同学提交作业的目录
-
+这里我用JavaScript的方式来做test。具体的两个test function在`test/payroll.js`文件里。
+测试结果如图`测试成功.png`
 ### 第四课：课后作业
 - 将第三课完成的payroll.sol程序导入truffle工程
 - 在test文件夹中，写出对如下两个函数的单元测试：
