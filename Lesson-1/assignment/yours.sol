@@ -3,8 +3,9 @@ pragma solidity ^0.4.14;
 contract Payroll {
     address owner;
     uint  payDuration = 10 seconds;
-    mapping (address => uint) lastPaydays;
-    mapping (address => uint) salaries;
+    uint lastPayday;
+    uint salary;
+    address employee;
 
     function Payroll() {
         owner = msg.sender;
@@ -14,31 +15,34 @@ contract Payroll {
         return this.balance;
     }
     
-    function calculateRunway(address employee) returns (uint) {
-        return this.balance / salaries[employee];
+    function calculateRunway() returns (uint) {
+        return this.balance / salary;
     }
     
-    function hasEnoughFund(address employee) returns (bool) {
-        return calculateRunway(employee) > 0;
+    function hasEnoughFund() returns (bool) {
+        return calculateRunway() > 0;
     }
-    
-    function setSalary(address employee, uint newSalary) {
-        require(msg.sender == owner && newSalary > 0);
-        salaries[employee] = newSalary;
-        lastPaydays[employee] = now;
-    }
-    
-    function getPaid(address employee) {
-        // 领工资不是本人或者该地址未被设置过工资则revert
-        uint salary = salaries[employee];
-        if(msg.sender != employee || salary == 0 || !hasEnoughFund(employee)) {
-            revert();
+
+    function updateEmployee(address e, uint s) {
+        require(msg.sender == owner);
+
+        if (employee != 0x0) {
+            uint payment = salary * (now - lastPayday) / payDuration;
+            employee.transfer(payment);
         }
-        uint nextPayday = lastPaydays[employee] + payDuration;
-        if (nextPayday > now ) {
-            revert();
-        }
-        lastPaydays[employee] = nextPayday;
+
+        employee = e;
+        salary = s * 1 ether;
+        lastPayday = now;
+    }
+    
+    function getPaid() {
+        require(msg.sender != employee || !hasEnoughFund());
+        uint nextPayday = lastPayday + payDuration;
+		require(nextPayday < now);
+
+        lastPayday = nextPayday;
         employee.transfer(salary);
     }
 }
+
