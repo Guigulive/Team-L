@@ -1,30 +1,34 @@
 var Payroll = artifacts.require("./Payroll.sol");
 
 contract('Payroll', function(accounts) {
-  
-    it("addEmployee should be success.", function() {
+  var payroll;
+  var owner = accounts[0];
+    it("addEmployee is succeed...", function() {
+      let employeeId = accounts[1];
         return Payroll.deployed().then(function(instance) {
-          payrollInstance = instance;
-          payrollInstance.addEmployee(accounts[1],2) ;     
+          payroll = instance;
+          // 调用函数addEmployee，参数为(address employeeId, uint salary)          
+          return payroll.addEmployee(employeeId,2,{from: owner});     
         }).then(function() { 
-          let employee=payrollInstance.employees.call(accounts[1]);
+          let employee = payroll.employees.call(employeeId);
           return employee;
         }).then(function(employee) {
-          assert.equal(employee[0], accounts[1], "address is not correct.");
+          // 抛出异常，参数为（实际值，预期值，错误的提示信息）
+          assert.equal(employee[0], employeeId, "address is not correct.");
+          // web3.toWei：把以太坊单位(包含代币单位)转为wei
           assert.equal(employee[1], web3.toWei(2), "salary is not correct.");
         });
       });
 
-    it("removeEmployee should be success.", function() {
+    it("removeEmployee is succeed...", function() {
+        let employeeId = accounts[2];
         return Payroll.deployed().then(function(instance) {
-          payrollInstance = instance;
-          payrollInstance.addEmployee(accounts[2],2);           
+          payroll = instance;
+          return payroll.addEmployee(employeeId,2,{from: owner});                   
         }).then(function() { 
-            payrollInstance.addFund({value: 100}); 
+          return payroll.removeEmployee(employeeId,{from: owner}); 
         }).then(function() { 
-            payrollInstance.removeEmployee(accounts[2]); 
-        }).then(function() { 
-            let employee=payrollInstance.employees.call(accounts[2]);
+            let employee=payroll.employees.call(employeeId);
             return employee;
         }).then(function(employee) {
           assert.equal(employee[0], 0x0, "removeEmployee is not correct.");
