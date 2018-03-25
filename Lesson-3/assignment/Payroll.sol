@@ -1,7 +1,7 @@
 pragma solidity ^0.4.14;
 
-import './SafeMath.sol';
-import './Ownable.sol';
+import "./SafeMath.sol";
+import "./Ownable.sol";
 
 contract Payroll is Ownable{
     using SafeMath for uint;
@@ -21,6 +21,7 @@ contract Payroll is Ownable{
         _;
     }
     
+    // 新增的modifier
     modifier employeeNew(address employeeId) {
         var employee = employees[employeeId];
         assert(employee.id == 0x0);
@@ -43,8 +44,6 @@ contract Payroll is Ownable{
         _partialPaid(employee);
         totalSalary = totalSalary.sub(employee.salary);
         delete employees[employeeId];
-        //相当于重置为初始值，因为mapping的key在找不到时value返回它的初始值
-
     }
     
     function updateEmployee(address employeeId, uint salary) onlyOwner employeeExist(employeeId){
@@ -57,7 +56,7 @@ contract Payroll is Ownable{
         employee.lastPayday = now;
         totalSalary = totalSalary.sub(backupSalary).add(employee.salary);
     }
-    
+  
     function changePaymentAddress(address newEmployeeId) employeeExist(msg.sender) employeeNew(newEmployeeId){
         var employee = employees[msg.sender];
         employees[newEmployeeId] = Employee(newEmployeeId, employee.salary, employee.lastPayday);
